@@ -1,0 +1,465 @@
+   {{-- Modal Ajouter membre de l'équipe --}}
+                <div class="modal fade" id="addPlayerModal" tabindex="-1" aria-labelledby="addPlayerModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addPlayerModalLabel">Ajouter un joueur à l'équipe</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form role="form text-left" method="POST" >
+                                    @csrf
+                                    <div class="mb-3">
+                                        <label for="team_id" class="form-label">ID de l'équipe</label>
+                                        <input type="text" class="form-control" id="team_id" name="team_id" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="username" class="form-label">Nom d'utilisateur</label>
+                                        <input type="text" class="form-control" id="username" name="username" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Mot de passe</label>
+                                        <input type="password" class="form-control" id="password" name="password" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="country" class="form-label">Pays</label>
+                                        <input type="text" class="form-control" id="country" name="country" required>
+                                    </div>
+                                    <input type="hidden" name="role" value="user"> <!-- Valeur par défaut pour le rôle -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                        <button type="submit" class="btn btn-primary">Ajouter Joueur</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- Fin modal Ajouter membre de l'équipe --}}
+
+
+
+                @extends('layouts.user_type.auth')
+
+@section('content')
+<div>
+    @if (Session::has('ligue_success'))
+        <div class="alert alert-success text-green fw-bold">
+            {{ Session::get('ligue_success') }}
+        </div>
+    @endif
+    @if (Session::has('ligue_error'))
+        <div class="alert alert-danger" role="alert">
+            {{ Session::get('ligue_error') }}
+        </div>
+    @endif
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4 mx-4">
+                <div class="card-header pb-0">
+                    <div class="d-flex flex-row justify-content-between">
+                        <div>
+                            <h5 class="mb-0 capitalize">Les équipes</h5>
+                        </div>
+
+                        <button style="background: #0a8897" class="btn capitalize btn-sm mb-0 border-none text-white"
+                            type="button" data-bs-toggle="modal" data-bs-target="#addLigueModal">
+                            + Ajouter une équipe
+                        </button>
+
+                    </div>
+                </div>
+                {{-- Modal Ajoutre un équipe --}}
+                <div class="modal fade" id="addLigueModal" tabindex="-1" aria-labelledby="addLigueModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addLigueModalLabel">Ajouter une équipe</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form role="form text-left" method="POST">
+                                {{-- <form role="form text-left" method="POST" action="{{ route('teams.storePlayer', ['team' => $team->id]) }}"> --}}
+                                    @csrf
+                                    <div class="mb-3">
+                                        <label for="ligueName" class="form-label">Nom de l'équipe</label>
+                                        <input type="text" class="form-control" id="ligueName" name="league_name"
+                                            required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="playerCount" class="form-label">Nombre de joueurs</label>
+                                        <input type="number" class="form-control" id="playerCount"
+                                            name="nombre_de_joueurs">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="teamCode" class="form-label">Code équipe</label>
+                                        <input type="text" class="form-control" id="teamCode" name="code_equipe">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="leagueName" class="form-label">Nom de la ligue</label>
+                                        <input type="text" class="form-control" id="leagueName" name="nom_de_ligue">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Créer l'équipe</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- Fin modal ajout équipe --}}
+
+
+                <div class="card-body px-0 pb-2 pt-3">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
+                                    <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nom d'équipe</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre de joueurs</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Code équipe</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nom de ligue</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Options</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+<!-- """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" -->
+@extends('layouts.user_type.auth')
+
+@section('content')
+<div>
+    @if (Session::has('Team_success'))
+        <div class="alert alert-success text-green fw-bold">
+            {{ Session::get('Team_success') }}
+        </div>
+    @endif
+    @if (Session::has('ligue_error'))
+        <div class="alert alert-danger" role="alert">
+            {{ Session::get('ligue_error') }}
+        </div>
+    @endif
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4 mx-4">
+                <div class="card-header pb-0">
+                    <div class="d-flex flex-row justify-content-between">
+                        <div>
+                            <h5 class="mb-0 capitalize">Les équipes</h5>
+                        </div>
+
+                        <button style="background: #0a8897" class="btn capitalize btn-sm mb-0 border-none text-white"
+                            type="button" data-bs-toggle="modal" data-bs-target="#addLigueModal">
+                            + Ajouter une équipe
+                        </button>
+
+                    </div>
+                </div>
+                {{-- Modal Ajoutre un équipe --}}
+                <div class="modal fade" id="addLigueModal" tabindex="-1" aria-labelledby="addLigueModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addLigueModalLabel">Ajouter une équipe</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form role="form text-left" method="POST" action="{{ route('teams.store') }}">
+                                    @csrf
+                                    <div class="mb-3">
+                                        <label for="teamName" class="form-label">Nom de l'équipe</label>
+                                        <input type="text" class="form-control" id="teamName" name="team_name" required>
+                                    </div>
+                                    {{-- <div class="mb-3">
+                                        <label for="numberOfPlayers" class="form-label">Nombre de joueurs</label>
+                                        <input type="number" class="form-control" id="numberOfPlayers" name="number_of_players" required>
+                                    </div> --}}
+                                    <div class="mb-3">
+                                        <label for="teamCode" class="form-label">Code équipe</label>
+                                        <input type="number" class="form-control" id="teamCode" name="team_code" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="leagueId" class="form-label">Ligue</label>
+                                        <select name="league_id" id="leagueId" class="form-control" required>
+                                            @foreach($leagues as $league)
+                                                <option value="{{ $league->id }}">{{ $league->league_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Créer l'équipe</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- Fin modal ajout équipe --}}
+
+                <div class="card-body px-0 pb-2 pt-3">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
+                                    <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nom d'équipe</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre de joueurs</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Code équipe</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nom de ligue</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Options</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($teams as $team)
+                                    <tr>
+                                        <td class="text-center">{{ $team->id }}</td>
+                                        <td class="text-center">{{ $team->team_name }}</td>
+                                        <td class="text-center">{{ $team->number_of_players }}</td>
+                                        <td class="text-center">{{ $team->team_code }}</td>
+                                        <td class="text-center">{{ $team->league->league_name }}</td>
+                                        <td class="text-center">
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+<!--  -->
+@extends('layouts.user_type.auth')
+
+@section('content')
+    <div>
+
+        @if (session('user_success'))
+            <div class="alert alert-success">
+                {{ session('user_success') }}
+            </div>
+        @endif
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4 mx-4">
+                    <div class="card-header pb-0">
+                        <div class="d-flex flex-row justify-content-between">
+                            <div>
+                                <h5 class="mb-0 capitalize">Les utilisateurs</h5>
+                            </div>
+                            <button style="background: #0a8897" class="btn capitalize btn-sm mb-0 border-none text-white"
+                                type="button" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                                Ajouter un utilisateur
+                            </button>
+                        </div>
+                    </div>
+
+                    <table class="table mt-3">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th class=" px-2">Nom d'utilisateur</th>
+                                <th class=" px-2">Email</th>
+                                <th class=" px-2">Pays</th>
+                                <th class=" px-2">Équipe</th>
+                                <th class=" px-2">Rôle</th>
+                                <th class=" px-2">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($users as $user)
+                                <tr>
+                                    <td class="text-center py-1">{{ $user->id }}</td>
+                                    <td class="text-satrt py-1">{{ $user->username }}</td>
+                                    <td class="text-satrt py-1">{{ $user->email }}</td>
+                                    <td class="text-satrt py-1">{{ $user->country }}</td>
+                                    <td class="text-satrt py-1">{{ $user->team ? $user->team->team_name : 'Aucune' }}</td>
+                                    <td>{{ $user->role }}</td>
+                                    <td class="py-1">
+                                        <button type="button" class="btn px-1 btn-link mb-0 text-warning"
+                                            data-bs-toggle="modal" data-bs-target="#editUserModal{{ $user->id }}">
+                                            <i class="fa fa-pencil-square-o fs-5"></i>
+                                        </button>
+                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                            style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn px-1 py-0 mb-0 btn-link text-danger"> <i
+                                                    class="fa fa-trash-o fs-5"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+
+                                <!-- Modal de mise à jour de l'utilisateur -->
+                                <div class="modal fade" id="editUserModal{{ $user->id }}" tabindex="-1"
+                                    aria-labelledby="editUserModalLabel{{ $user->id }}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="editUserModalLabel{{ $user->id }}">Modifier
+                                                    l'utilisateur</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form method="POST" action="{{ route('users.update', $user->id) }}">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="mb-3">
+                                                        <label for="username{{ $user->id }}" class="form-label">Nom
+                                                            d'utilisateur</label>
+                                                        <input type="text" class="form-control"
+                                                            id="username{{ $user->id }}" name="username"
+                                                            value="{{ $user->username }}" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="email{{ $user->id }}"
+                                                            class="form-label">Email</label>
+                                                        <input type="email" class="form-control"
+                                                            id="email{{ $user->id }}" name="email"
+                                                            value="{{ $user->email }}" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="country{{ $user->id }}"
+                                                            class="form-label">Pays</label>
+                                                        <input type="text" class="form-control"
+                                                            id="country{{ $user->id }}" name="country"
+                                                            value="{{ $user->country }}">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="team_id{{ $user->id }}"
+                                                            class="form-label">Équipe</label>
+                                                        <select class="form-control" id="team_id{{ $user->id }}"
+                                                            name="team_id">
+                                                            <option value="">Aucune</option>
+                                                            @foreach ($teams as $team)
+                                                                <option value="{{ $team->id }}"
+                                                                    {{ $user->team_id == $team->id ? 'selected' : '' }}>
+                                                                    {{ $team->team_name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="role{{ $user->id }}"
+                                                            class="form-label">Rôle</label>
+                                                        <select class="form-control" id="role{{ $user->id }}"
+                                                            name="role">
+                                                            <option value="user"
+                                                                {{ $user->role == 'user' ? 'selected' : '' }}>Utilisateur
+                                                            </option>
+                                                            <option value="admin"
+                                                                {{ $user->role == 'admin' ? 'selected' : '' }}>Admin
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="password{{ $user->id }}" class="form-label">Mot de
+                                                            passe</label>
+                                                        <input type="password" class="form-control"
+                                                            id="password{{ $user->id }}" name="password">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="password_confirmation{{ $user->id }}"
+                                                            class="form-label">Confirmer le mot de passe</label>
+                                                        <input type="password" class="form-control"
+                                                            id="password_confirmation{{ $user->id }}"
+                                                            name="password_confirmation">
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Modal d'ajout d'utilisateur -->
+                <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addUserModalLabel">Ajouter un utilisateur</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST" action="{{ route('users.store') }}">
+                                    @csrf
+                                    <div class="mb-3">
+                                        <label for="username" class="form-label">Nom d'utilisateur</label>
+                                        <input type="text" class="form-control" id="username" name="username"
+                                            required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email"
+                                            required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="country" class="form-label">Pays</label>
+                                        <input type="text" class="form-control" id="country" name="country">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="team_id" class="form-label">Équipe</label>
+                                        <select class="form-control" id="team_id" name="team_id">
+                                            <option value="">Aucune</option>
+                                            @foreach ($teams as $team)
+                                                <option value="{{ $team->id }}">{{ $team->team_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="role" class="form-label">Rôle</label>
+                                        <select class="form-control" id="role" name="role">
+                                            <option value="user">Utilisateur</option>
+                                            <option value="admin">Admin</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Mot de passe</label>
+                                        <input type="password" class="form-control" id="password" name="password"
+                                            required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password_confirmation" class="form-label">Confirmer le mot de
+                                            passe</label>
+                                        <input type="password" class="form-control" id="password_confirmation"
+                                            name="password_confirmation" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+

@@ -1,0 +1,109 @@
+/* Styles pour DataTables */
+.dataTables_length {
+    position: relative;
+    float: none !important;
+    text-align: center;
+    width: 140px !important;
+    padding: 10px !important;
+}
+.dataTables_wrapper {
+    float: left;
+    margin-bottom: 10px;
+}
+label {
+    display: flex !important;
+    align-items: center !important;
+}
+.dataTables_wrapper {
+    width: 99% !important;
+}
+.table.dataTable tbody td {
+    padding: 8px 10px;
+    font-weight:600 !important
+
+}
+tr {
+    border: grey !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: #fff !important;
+    color: black !important;
+    border: #fff !important;
+
+    /*change the hover text color*/
+}
+
+/*below block of css for change style when active*/
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:active {
+    background: #fff !important;
+    color: black !important;
+    border: #fff !important;
+}
+.form-select-sm {
+    width: 100px !important;
+}
+#usersTable_filter {
+    padding-top: 12px !important;
+    padding-right: 12px !important;
+}
+#usersTable {
+    width: 100% !important;
+    text-align: center;
+}
+.dataTables_wrapper .dataTables_filter input {
+    width: 250px !important;
+    padding: 10px !important;
+}
+
+.dataTables_wrapper,
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_paginate {
+    font-size: 14px;
+    color: #000000;
+}
+
+/* Styles pour les icônes de tri */
+.dataTables_wrapper .dataTables_wrapper .sorting:before,
+.dataTables_wrapper .dataTables_wrapper .sorting_asc:before,
+.dataTables_wrapper .dataTables_wrapper .sorting_desc:before,
+.dataTables_wrapper .dataTables_wrapper .sorting_asc_disabled:before,
+.dataTables_wrapper .dataTables_wrapper .sorting_desc_disabled:before {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+.dataTables_wrapper .dataTables_wrapper .sorting_asc:before {
+    content: "\25b2"; /* icône triangle ascendant */
+}
+
+.dataTables_wrapper .dataTables_wrapper .sorting_desc:before {
+    content: "\25bc"; /* icône triangle descendant */
+}
+
+/* Styles pour les boutons de DataTables */
+.dataTables_wrapper .dataTables_wrapper .dt-buttons {
+    float: left;
+    margin-bottom: 10px;
+}
+
+/* Styles pour la pagination */
+.dataTables_wrapper .dataTables_paginate.paging_simple {
+    margin-top: 10px !important;
+}
+.dataTables_wrapper .dataTables_paginate {
+    float: none !important;
+}
+
+/* Media query pour affichage responsive */
+@media (max-width: 768px) {
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_filter,
+    .dataTables_wrapper .dataTables_info,
+    .dataTables_wrapper .dataTables_paginate {
+        font-size: 12px;
+    }
+}
